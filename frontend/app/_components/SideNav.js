@@ -1,0 +1,55 @@
+'use client';
+import MenuList from '@/app/_utils/MenuList';
+import { Button } from '@/components/ui/button';
+import { UserButton, useUser } from '@clerk/nextjs';
+
+import { LogIn } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
+function SideNav({ toggleSideBar }) {
+  const { user } = useUser();
+  return (
+    <div className="h-full p-5 ">
+      <Image src="/logo.svg" alt="logo" width={280} height={200} />
+
+      <div className="flex flex-col mt-10">
+        {MenuList.map((item, index) => (
+          <Link
+            href={item.path}
+            onClick={() => toggleSideBar(false)}
+            key={index}
+          >
+            <h2
+              variant="ghost"
+              className="flex items-center justify-start gap-5 p-4 rounded-md cursor-pointer group hover:bg-slate-100 text-slate-500"
+            >
+              <item.icon className="group-hover:animate-bounce" />
+              {item.name}
+            </h2>
+          </Link>
+        ))}
+      </div>
+      <div className="absolute flex items-center gap-3 bottom-10">
+        {!user ? (
+          <Link href="/sign-in">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <LogIn />
+              Sign In
+            </Button>
+          </Link>
+        ) : (
+          <div className="flex items-center gap-3">
+            <UserButton /> Profile
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default SideNav;
