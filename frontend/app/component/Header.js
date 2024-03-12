@@ -9,12 +9,12 @@ const Header = () => {
   const { user } = useUser();
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
+    { name: 'Lojas', href: '/stores' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
   return (
-    <div className="fixed z-10 flex items-center justify-between w-full px-4 py-2 bg-white">
+    <div className="fixed z-10 flex items-center justify-between w-full px-4 bg-white">
       <div className="flex items-center justify-center gap-3">
         <Image src="/logo.jpg" alt="Logo" width={50} height={50} className="" />
         <span>Mais Barato</span>

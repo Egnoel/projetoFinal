@@ -6,7 +6,7 @@ import apple from '../assets/apple.jpg';
 import orange from '../assets/orange.jpg';
 import mango from '../assets/mango.jpg';
 
-const CardList = () => {
+const CardList = ({ storeName }) => {
   const products = [
     {
       id: 1,
@@ -49,7 +49,7 @@ const CardList = () => {
       {products.map((product) => (
         <Card
           key={product.id}
-          name={product.name}
+          name={storeName ? storeName : product.name}
           price={product.price}
           image={product.image}
           weight={product.weight}

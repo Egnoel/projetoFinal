@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const Card = ({ name, price, image, weight }) => {
   return (
-    <div className="flex  bg-white w-[300px] h-[130px] rounded-md">
+    <div className="flex  bg-white w-[300px] h-[130px] rounded-md shadow-sm hover:shadow-md">
       <div className="w-1/2 h-full bg-red-300 rounded-md">
         <Image
           src={image}
