@@ -16,23 +16,23 @@ const Stores = () => {
   const stores = [
     {
       id: 1,
-      name: 'Amazon',
+      name: 'Kero',
     },
     {
       id: 2,
-      name: 'Ebay',
+      name: 'Kandando',
     },
     {
       id: 3,
-      name: 'Walmart',
+      name: 'FreshMart',
     },
     {
       id: 4,
-      name: 'Aliexpress',
+      name: 'Kibabo',
     },
     {
       id: 5,
-      name: 'Bestbuy',
+      name: 'Casa dos frescos',
     },
   ];
   const [clicked, setClicked] = useState(1);
