@@ -12,9 +12,7 @@ export default function Home() {
         <CardList />
       </div>
       <div className="flex flex-col w-1/5 h-full gap-10 ">
-        {
-          //  <AddProduct />
-        }
+        <AddProduct />
       </div>
     </div>
   );
