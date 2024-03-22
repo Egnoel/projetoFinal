@@ -10,8 +10,6 @@ const Header = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Lojas', href: '/stores' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
   ];
   return (
     <div className="fixed z-10 flex items-center justify-between w-full px-4 bg-white">
