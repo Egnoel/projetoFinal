@@ -6,7 +6,7 @@ import AddProduct from './component/AddProduct';
 import { useState } from 'react';
 
 export default function Home() {
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(true);
   return (
     <div className="flex flex-row gap-10">
       <div className="flex flex-col w-4/5 h-full gap-5">
