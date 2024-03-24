@@ -20,43 +20,43 @@ const ComparePrices = () => {
       invoice: 'INV001',
       paymentStatus: 'Amazon',
       totalAmount: '$250.00',
-      paymentMethod: 'Credit Card',
+      paymentMethod: '10km',
     },
     {
       invoice: 'INV002',
       paymentStatus: 'Aliexpress',
       totalAmount: '$150.00',
-      paymentMethod: 'PayPal',
+      paymentMethod: '2km',
     },
     {
       invoice: 'INV003',
       paymentStatus: 'BestBuy',
       totalAmount: '$350.00',
-      paymentMethod: 'Bank Transfer',
+      paymentMethod: '33km',
     },
     {
       invoice: 'INV004',
       paymentStatus: 'Walmart',
       totalAmount: '$450.00',
-      paymentMethod: 'Credit Card',
+      paymentMethod: '23km',
     },
     {
       invoice: 'INV005',
       paymentStatus: 'Ebay',
       totalAmount: '$550.00',
-      paymentMethod: 'PayPal',
+      paymentMethod: '12km',
     },
     {
       invoice: 'INV006',
       paymentStatus: 'Buitanda',
       totalAmount: '$200.00',
-      paymentMethod: 'Bank Transfer',
+      paymentMethod: '4km',
     },
     {
       invoice: 'INV007',
       paymentStatus: 'Kero',
       totalAmount: '$300.00',
-      paymentMethod: 'Credit Card',
+      paymentMethod: '10m',
     },
   ];
   return (
@@ -66,6 +66,7 @@ const ComparePrices = () => {
           <TableHead className="w-[250px]">Product</TableHead>
           <TableHead>Store</TableHead>
           <TableHead>Price</TableHead>
+          <TableHead>Distância</TableHead>
           <TableHead className=""></TableHead>
         </TableRow>
       </TableHeader>
@@ -86,6 +87,7 @@ const ComparePrices = () => {
             </TableCell>
             <TableCell>{invoice.paymentStatus}</TableCell>
             <TableCell>{invoice.totalAmount}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
             <TableCell className="">
               <Button className="bg-blue-500 shadow-sm hover:bg-blue-600">
                 Add

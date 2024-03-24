@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { UserButton, useUser } from '@clerk/nextjs';
+import { Search } from 'lucide-react';
 
 const Header = () => {
   const { user } = useUser();
@@ -29,15 +30,23 @@ const Header = () => {
           ))}
         </ul>
       </nav>
-      {!user ? (
-        <Link href="/sign-up">
-          <Button className="bg-blue-500 shadow-sm hover:bg-blue-600">
-            Get Started
-          </Button>
-        </Link>
-      ) : (
-        <UserButton />
-      )}
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <button>
+            <Search />
+          </button>
+          <input type="text" className="border rounded-md outline-none" />
+        </div>
+        {!user ? (
+          <Link href="/sign-up">
+            <Button className="bg-blue-500 shadow-sm hover:bg-blue-600">
+              Get Started
+            </Button>
+          </Link>
+        ) : (
+          <UserButton />
+        )}
+      </div>
     </div>
   );
 };

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import add from '../assets/add.jpg';
 import { useState } from 'react';
 import SearchableSelect from './SearchableSelect ';
+import { ComboboxDemo } from './ComboBox';
+import UploadImage from './UploadImage';
 
 const AddProduct = () => {
   const [price, setPrice] = useState(0);
@@ -133,6 +135,9 @@ const AddProduct = () => {
               <SearchableSelect options={locations} label={'Endereço'} />
             </div>
           </div>
+        </div>
+        <div>
+          <UploadImage />
         </div>
       </form>
     </div>

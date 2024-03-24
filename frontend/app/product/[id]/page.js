@@ -29,7 +29,7 @@ const ProductPage = ({ params }) => {
       <div className="flex items-center w-full">
         <Tabs defaultValue="description" className="w-full">
           <TabsList className="flex items-center gap-4">
-            <TabsTrigger value="description">Description</TabsTrigger>
+            <TabsTrigger value="description">Comments</TabsTrigger>
             <TabsTrigger value="compare">Compare</TabsTrigger>
           </TabsList>
           <TabsContent value="description">{id}</TabsContent>
