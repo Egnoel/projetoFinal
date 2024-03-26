@@ -65,7 +65,7 @@ const AddProduct = () => {
     },
   ];
   return (
-    <div className="flex flex-col items-center gap-3 py-2 bg-white shadow-md shadow-gray-400">
+    <div className="flex flex-col items-center gap-3 py-2 bg-white rounded-md shadow-md shadow-gray-400">
       <p className="text-xl font-bold">Add Product</p>
       <Image
         src={add}
@@ -136,8 +136,18 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="flex items-center w-full px-2">
           <UploadImage />
+        </div>
+        <div className="flex flex-col items-center w-full">
+          <span>Descrição</span>
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="4"
+            className="w-full border border-black rounded-md outline-none"
+          ></textarea>
         </div>
       </form>
     </div>
