@@ -45,7 +45,7 @@ const CardList = ({ storeName }) => {
     },
   ];
   return (
-    <div className="flex flex-wrap w-full gap-4">
+    <div className="flex flex-wrap w-full gap-4 px-24 py-6">
       {products.map((product) => (
         <Card
           key={product.id}
