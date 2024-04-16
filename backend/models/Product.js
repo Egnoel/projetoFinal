@@ -1,24 +1,31 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const productSchema = new Schema({
-  name: String,
-  price: Number,
-  description: String,
-  images: [String],
-  category: String,
-  address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address',
+const productSchema = new Schema(
+  {
+    name: String,
+    price: Number,
+    description: String,
+    images: [String],
+    category: {
+      type: String,
+      enum: ['food', 'drink', 'household'],
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    productPlacement: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Establishment',
+    },
+    createdAt: {
+      type: Date,
+      default: new Date(),
+    },
   },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  createdAt: {
-    type: Date,
-    default: new Date(),
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model('Product', productSchema);
