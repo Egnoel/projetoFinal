@@ -15,7 +15,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    image: String,
+    image: {
+      type: String,
+      required: true,
+      default: 'https://github.com/shadcn.png',
+    },
     password: {
       type: String,
       required: true,
