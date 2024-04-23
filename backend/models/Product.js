@@ -16,7 +16,7 @@ const productSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    productPlacement: {
+    Establishment: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Establishment',
     },
