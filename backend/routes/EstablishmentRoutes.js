@@ -7,16 +7,23 @@ const {
   deleteEstablishment,
   getEstablishment,
   getEstablishments,
+  getProducts,
+  getEstablishmentByType,
 } = require('../controllers/EstablishmentController');
+const auth = require('../utils/middleware');
 
-router.post('/', addEstablishment);
+router.post('/', auth, addEstablishment);
 
-router.put('/:id', editEstablishment);
+router.put('/:id', auth, editEstablishment);
 
-router.delete('/:id', deleteEstablishment);
+router.delete('/:id', auth, deleteEstablishment);
 
 router.get('/:id', getEstablishment);
 
 router.get('/', getEstablishments);
+
+router.get('/:id/products', getProducts);
+
+router.get('/type/:type', getEstablishmentByType);
 
 module.exports = router;

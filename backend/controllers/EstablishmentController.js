@@ -4,15 +4,22 @@ const User = require('../models/User');
 
 const addEstablishment = async (req, res) => {
   try {
-    const { name, addresId, storeType, createdBy } = req.body;
+    const store = '';
+    const createdBy = req.user._id;
+    const { name, addresId } = req.body;
     const address = await Address.findById(addresId);
     if (!address) return res.status(404).send({ message: 'Address not found' });
     const user = await User.findById(createdBy);
     if (!user) return res.status(404).send({ message: 'User not found' });
+    if (user.userType === 'user') {
+      store = 'informal';
+    } else {
+      store = 'formal';
+    }
     const newEstablishment = new Establishment({
       name,
       address,
-      storeType,
+      storeType: store,
       createdBy,
     });
     const savedEstablishment = await newEstablishment.save();
@@ -24,7 +31,8 @@ const addEstablishment = async (req, res) => {
 
 const editEstablishment = async (req, res) => {
   try {
-    const { name, addresId, storeType, createdBy } = req.body;
+    const { name, addresId, storeType } = req.body;
+    const createdBy = req.user._id;
     const address = await Address.findById(addresId);
     if (!address) return res.status(404).send({ message: 'Address not found' });
     const user = await User.findById(createdBy);
@@ -74,11 +82,35 @@ const getEstablishments = async (req, res) => {
   }
 };
 
+const getProducts = async (req, res) => {
+  try {
+    const establishment = await Establishment.findById(req.params.id);
+    if (!establishment)
+      return res.status(404).send({ message: 'Establishment not found' });
+    res.status(200).send(establishment.products);
+  } catch (error) {
+    res.status(404).send({ message: error.message });
+  }
+};
+
+const getEstablishmentByType = async (req, res) => {
+  try {
+    const establishments = await Establishment.find({
+      storeType: req.params.type,
+    });
+    res.status(200).send(establishments);
+  } catch (error) {
+    res.status(404).send({ message: error.message });
+  }
+};
+
 module.exports = {
   addEstablishment,
   editEstablishment,
   deleteEstablishment,
   getEstablishment,
   getEstablishments,
+  getProducts,
+  getEstablishmentByType,
 };
 // Path: routes/establishment.js
