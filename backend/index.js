@@ -10,6 +10,7 @@ require('dotenv').config();
 const UserRoute = require('./routes/UserRoute');
 const EstablishmentRoute = require('./routes/EstablishmentRoutes');
 const ProductRoutes = require('./routes/ProductRoutes');
+const AddressRoutes = require('./routes/AddressRoutes');
 
 // Connect to MongoDB
 mongoose
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use('/users', UserRoute);
 app.use('/establishments', EstablishmentRoute);
 app.use('/products', ProductRoutes);
+app.use('/addresses', AddressRoutes);
 
 // Start the server
 const port = process.env.PORT || 8000;
