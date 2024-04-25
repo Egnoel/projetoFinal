@@ -9,13 +9,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className="flex flex-col bg-[#f0f5fb]">
-          <Header />
-          <div className="w-full h-full px-10 py-20">{children}</div>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className="flex flex-col bg-[#f0f5fb]">
+        <Header />
+        <div className="w-full h-full px-10 py-20">{children}</div>
+      </body>
+    </html>
   );
 }

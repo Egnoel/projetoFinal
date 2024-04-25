@@ -7,7 +7,7 @@ const addProduct = async (req, res) => {
   try {
     const { name, description, price, images, establishmentId, category } =
       req.body;
-    const createdBy = req.user.id;
+    const createdBy = req.user._id;
     const establishment = await Establishments.findById(establishmentId);
     if (!establishment)
       return res.status(404).send({ message: 'Establishment not found' });

@@ -1,9 +1,8 @@
-import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const Banner = () => {
-  const { user } = useUser();
+  const user = false;
   return (
     <div className="flex flex-col gap-4 h-60 ">
       <div className="flex items-center justify-between w-full px-10 bg-red-400 rounded-xl h-3/4">

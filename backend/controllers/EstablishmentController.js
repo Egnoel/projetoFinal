@@ -4,21 +4,18 @@ const User = require('../models/User');
 
 const addEstablishment = async (req, res) => {
   try {
-    const store = '';
+    let store = '';
     const createdBy = req.user._id;
-    const { name, addresId } = req.body;
-    const address = await Address.findById(addresId);
-    if (!address) return res.status(404).send({ message: 'Address not found' });
+    const { name, address } = req.body;
+    const { address: addressStr, coordinates } = address;
+    const newAddress = new Address({ address: addressStr, coordinates });
+    const savedAddress = await newAddress.save();
     const user = await User.findById(createdBy);
     if (!user) return res.status(404).send({ message: 'User not found' });
-    if (user.userType === 'user') {
-      store = 'informal';
-    } else {
-      store = 'formal';
-    }
+    store = user.userType === 'user' ? 'informal' : 'formal';
     const newEstablishment = new Establishment({
       name,
-      address,
+      address: savedAddress._id,
       storeType: store,
       createdBy,
     });
