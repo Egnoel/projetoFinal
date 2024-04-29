@@ -1,16 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Check, ChevronsUpDown, Search } from 'lucide-react';
-
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
@@ -21,9 +12,6 @@ const SearchableSelect = ({ options, label }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  useEffect(() => {
-    options.map((option) => console.log(option));
-  }, [options]);
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };

@@ -6,7 +6,7 @@ const UploadImage = () => {
     setFile(e.target.files[0]);
   };
   return (
-    <div>
+    <div className="flex flex-row items-center gap-1">
       <span>Imagem</span>
       <input type="file" accept="image/*" onChange={handleChange} />
     </div>

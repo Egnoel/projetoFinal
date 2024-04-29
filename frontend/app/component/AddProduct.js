@@ -65,15 +65,7 @@ const AddProduct = () => {
     },
   ];
   return (
-    <div className="flex flex-col items-center gap-3 py-2 bg-white rounded-md shadow-md shadow-gray-400">
-      <p className="text-xl font-bold">Add Product</p>
-      <Image
-        src={add}
-        alt="add"
-        className="object-cover rounded-md"
-        width={250}
-        height={200}
-      />
+    <div className="flex flex-col gap-3 ">
       <form
         action=""
         method="post"
@@ -82,7 +74,7 @@ const AddProduct = () => {
           e.preventDefault(); // prevent form submission
         }}
       >
-        <div className="flex items-center justify-center w-full gap-2">
+        <div className="flex items-center w-full gap-2">
           <span>Name</span>
           <input
             type="text"
@@ -91,7 +83,7 @@ const AddProduct = () => {
             className="border rounded-md"
           />
         </div>
-        <div className="flex items-center justify-center w-full gap-2">
+        <div className="flex items-center w-full gap-2">
           <span>Price</span>
           <div className="flex items-center gap-1">
             <button
@@ -123,23 +115,23 @@ const AddProduct = () => {
             </button>
           </div>
         </div>
-        <div className="flex flex-col items-center w-full gap-2">
+        <div className="flex flex-col w-full gap-2">
           <span>Localização</span>
-          <div className="flex items-center gap-5">
-            <div className="flex flex-col">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row items-center gap-2">
               <span>Estabelecimento</span>
               <SearchableSelect options={stores} label={'Estabelecimentos'} />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-row items-center gap-2">
               <span>Endereço</span>
               <SearchableSelect options={locations} label={'Endereço'} />
             </div>
           </div>
         </div>
-        <div className="flex items-center w-full px-2">
+        <div className="flex items-center w-full">
           <UploadImage />
         </div>
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col w-full">
           <span>Descrição</span>
           <textarea
             name=""

@@ -75,11 +75,9 @@ export default function Home() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Adicionar Produto</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
+            <DialogDescription>Adicione um novo produto.</DialogDescription>
           </DialogHeader>
+          <AddProduct />
           <DialogFooter>
             <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
               Adicionar
