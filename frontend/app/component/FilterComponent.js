@@ -8,10 +8,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-const FilterComponent = () => {
+const FilterComponent = ({ tipo }) => {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-lg font-semibold">Estabelecimentos</span>
+      <span className="text-lg font-semibold">
+        {tipo === 'informal' ? 'Mercado Informal' : 'Estabelecimentos'}
+      </span>
       <div className="flex items-center gap-2">
         <ListFilter />
         <div className="flex items-center gap-6">

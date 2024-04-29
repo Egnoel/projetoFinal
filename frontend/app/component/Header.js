@@ -29,11 +29,11 @@ const Header = () => {
         </ul>
       </nav>
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 px-1 border rounded-md">
+          <input type="text" className="outline-none " />
           <button>
             <Search />
           </button>
-          <input type="text" className="border rounded-md outline-none" />
         </div>
         <Link href="/sign-up">
           <Button className="bg-blue-500 shadow-sm hover:bg-blue-600">
