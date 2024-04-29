@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import CardList from '../component/CardList';
+import CardList from '../component/CardFormal';
 import {
   Pagination,
   PaginationContent,

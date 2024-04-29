@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Card = ({ name, price, image, weight, id }) => {
   return (
-    <div className="flex  bg-[#f0f5fb] w-[300px] h-[130px] rounded-md shadow-sm hover:shadow-md ">
+    <div className="flex bg-[#f0f5fb] w-full h-full rounded-md shadow-sm hover:shadow-md ">
       <div className="flex items-center justify-center w-1/2 h-full rounded-md">
         <Image
           src={image}

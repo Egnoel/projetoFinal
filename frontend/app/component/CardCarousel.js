@@ -1,11 +1,41 @@
 import React from 'react';
-import CardList from './CardList';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import Card from './Card';
 
-const CardCarousel = () => {
+const CardCarousel = ({ products }) => {
   return (
-    <div className="w-full bg-white">
-      <CardList />
-    </div>
+    <Carousel
+      opts={{
+        align: 'start',
+        loop: true,
+      }}
+      className="w-[95%] ml-4"
+    >
+      <CarouselContent>
+        {products.map((product) => (
+          <CarouselItem
+            key={product.id}
+            className="flex flex-row items-center gap-2 md:basis-1/2 lg:basis-1/4"
+          >
+            <Card
+              name={product.name}
+              price={product.price}
+              image={product.image}
+              weight={product.weight}
+              id={product.id}
+            />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselNext />
+      <CarouselPrevious />
+    </Carousel>
   );
 };
 
