@@ -21,13 +21,13 @@ const CardCarousel = ({ products }) => {
         {products.map((product) => (
           <CarouselItem
             key={product.id}
-            className="flex flex-row items-center gap-2 md:basis-1/2 lg:basis-1/4"
+            className="flex flex-row items-center gap-2 md:basis-1/2 lg:basis-1/3"
           >
             <Card
               name={product.name}
               price={product.price}
-              image={product.image}
-              weight={product.weight}
+              image={product.images[0]}
+              weight={product.description}
               id={product.id}
             />
           </CarouselItem>

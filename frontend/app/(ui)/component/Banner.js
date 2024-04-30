@@ -1,8 +1,19 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Banner = () => {
-  const user = false;
+  const [user, setUser] = useState({});
+  const router = useRouter();
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      setUser(JSON.parse(localStorage.getItem('user')));
+    } else {
+      router.push('/login');
+    }
+  }, [router]);
   return (
     <div className="flex flex-col gap-4 h-60 ">
       <div className="flex items-center justify-between w-full px-10 bg-red-400 rounded-xl h-3/4">

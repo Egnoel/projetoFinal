@@ -13,3 +13,21 @@ axios.defaults.headers = {
 export const login = ({ email, password }) => {
   return axios.post('users/login', { email, password });
 };
+
+export const signUp = ({ fisrtName, lastName, userType, email, password }) => {
+  return axios.post('users', {
+    fisrtName,
+    lastName,
+    userType,
+    email,
+    password,
+  });
+};
+
+export const getProducts = () => {
+  return axios.get('/products/');
+};
+
+export const getProduct = (id) => {
+  return axios.get(`/products/${id}`);
+};

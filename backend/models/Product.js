@@ -19,6 +19,7 @@ const productSchema = new Schema(
     Establishment: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Establishment',
+      required: true,
     },
     createdAt: {
       type: Date,

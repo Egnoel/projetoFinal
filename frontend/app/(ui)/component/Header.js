@@ -1,15 +1,24 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Header = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Lojas', href: '/stores' },
   ];
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      setUser(JSON.parse(localStorage.getItem('user')));
+    } else {
+      window.location.href = '/login';
+    }
+  }, []);
   return (
     <div className="fixed z-10 flex items-center justify-between w-full px-4 bg-white">
       <div className="flex items-center justify-center gap-3">
@@ -35,11 +44,21 @@ const Header = () => {
             <Search />
           </button>
         </div>
-        <Link href="/sign-up">
-          <Button className="bg-blue-500 shadow-sm hover:bg-blue-600">
-            Get Started
-          </Button>
-        </Link>
+        {!user ? (
+          <Link href="/sign-up">
+            <Button className="bg-blue-500 shadow-sm hover:bg-blue-600">
+              Get Started
+            </Button>
+          </Link>
+        ) : (
+          <div className="flex flex-row gap-2 items-center">
+            <Avatar>
+              <AvatarImage src={user.image} alt="user" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Link href={`/profile/${user.id}`}>{user.firstName}</Link>
+          </div>
+        )}
       </div>
     </div>
   );

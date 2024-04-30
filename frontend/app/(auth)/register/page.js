@@ -1,4 +1,5 @@
 'use client';
+import { signUp } from '@/app';
 import {
   Select,
   SelectContent,
@@ -7,24 +8,27 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [userType, setUserType] = useState('user');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      email,
-      password,
-      confirmPassword,
-      userType,
-      firstName,
-      lastName
-    );
+    signUp({ firstName, lastName, userType, email, password })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', res.data.user);
+        router.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="md:w-1/3 max-w-sm">
@@ -75,6 +79,7 @@ const Register = () => {
         <button
           className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
           type="submit"
+          onClick={handleSubmit}
         >
           Register
         </button>

@@ -16,7 +16,7 @@ const addProduct = async (req, res) => {
       description,
       price,
       images,
-      establishment,
+      Establishment: establishment._id,
       category,
       createdBy,
     });
@@ -40,7 +40,9 @@ const getProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find()
+      .populate('Establishment')
+      .populate('createdBy');
     res.status(200).send(products);
   } catch (error) {
     res.status(404).send({ message: error.message });

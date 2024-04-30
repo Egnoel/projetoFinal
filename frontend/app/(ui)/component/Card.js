@@ -6,14 +6,14 @@ import Link from 'next/link';
 
 const Card = ({ name, price, image, weight, id }) => {
   return (
-    <div className="flex bg-[#f0f5fb] w-full h-full rounded-md shadow-sm hover:shadow-md ">
-      <div className="flex items-center justify-center w-1/2 h-full rounded-md">
+    <div className="flex bg-[#f0f5fb] w-full h-full rounded-md shadow-sm hover:shadow-2xl ">
+      <div className="flex ml-3 w-1/2  rounded-md">
         <Image
           src={image}
-          alt="banana"
-          width={90}
-          height={90}
-          className=" object-cover w-[90%] h-[90%] rounded-md"
+          alt="product"
+          width={120}
+          height={70}
+          className=" object-cover w-[70%] rounded-md"
         />
       </div>
       <div className="flex flex-col justify-center w-1/2 px-3">

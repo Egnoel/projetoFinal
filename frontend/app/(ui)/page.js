@@ -2,8 +2,7 @@
 import Banner from './component/Banner';
 import { CirclePlus } from 'lucide-react';
 import AddProduct from './component/AddProduct';
-import { useEffect, useState } from 'react';
-import CardCarousel from './component/CardCarousel';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -20,73 +19,52 @@ import orange from './assets/orange.jpg';
 import mango from './assets/mango.jpg';
 import CardFormal from './component/CardFormal';
 import CardInformal from './component/CardInformal';
-import { login } from '..';
+import { useRouter } from 'next/navigation';
+import { getProducts } from '..';
 
 export default function Home() {
-  const products = [
-    {
-      id: 1,
-      name: 'Banana',
-      price: 2.5,
-      image: banana,
-      weight: '1kg',
-    },
-    {
-      id: 2,
-      name: 'Apple',
-      price: 3.5,
-      image: apple,
-      weight: '1kg',
-    },
-    {
-      id: 3,
-      name: 'Orange',
-      price: 2.0,
-      image: orange,
-      weight: '1kg',
-    },
-    {
-      id: 4,
-      name: 'Mango',
-      price: 3.0,
-      image: mango,
-      weight: '1kg',
-    },
-    {
-      id: 5,
-      name: 'Pineapple',
-      price: 4.0,
-      image: pineapple,
-      weight: '1kg',
-    },
-  ];
-  const getUser = () => {
-    login({ email: 'egnoel@hotmail.com', password: '1234' })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  const router = useRouter();
+  const [user, setUser] = useState({});
+  const [formalProducts, setFormalProducts] = useState([]);
+  const [informalProducts, setInformalProducts] = useState([]);
+  const fetchProducts = useCallback(() => {
+    getProducts().then((response) => {
+      const products = response.data;
+      const formalProducts = products.filter(
+        (product) => product.Establishment.storeType === 'formal'
+      );
+      const informalProducts = products.filter(
+        (product) => product.Establishment.storeType === 'informal'
+      );
+      setFormalProducts(formalProducts);
+      setInformalProducts(informalProducts);
+      console.log(formalProducts);
+    });
+  }, []); // Add an empty array as the second argument
   useEffect(() => {
-    getUser();
-  }, []);
+    if (localStorage.getItem('user')) {
+      setUser(JSON.parse(localStorage.getItem('user')));
+    } else {
+      router.push('/login');
+    }
+    fetchProducts();
+  }, [fetchProducts, router]);
 
   return (
     <div className="relative flex flex-col gap-10">
       <div className="flex flex-col w-full h-full">
         <Banner />
         <div className="flex flex-col items-center w-full gap-6">
-          <CardFormal products={products} />
-          <CardInformal products={products} />
+          <CardFormal products={formalProducts} />
+          <CardInformal products={informalProducts} />
         </div>
       </div>
       <Dialog>
-        <DialogTrigger className="fixed bottom-0 z-10 flex items-center justify-center w-16 h-16 m-1 duration-500 ease-out bg-black rounded-full right-2 transition-margin hover:m-3 ">
-          <CirclePlus className="w-8 h-8 text-white" />
-        </DialogTrigger>
+        {user && user.userType === 'admin' && (
+          <DialogTrigger className="fixed bottom-0 z-10 flex items-center justify-center w-16 h-16 m-1 duration-500 ease-out bg-black rounded-full right-2 transition-margin hover:m-3 ">
+            <CirclePlus className="w-8 h-8 text-white" />
+          </DialogTrigger>
+        )}
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Adicionar Produto</DialogTitle>
