@@ -2,60 +2,58 @@
 import React, { useState } from 'react';
 
 const Login = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-
-  const toggleForm = () => {
-    setIsSignUp(!isSignUp);
-  };
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-200 to-white">
-      <div className="container max-w-lg p-8 mx-auto bg-white rounded shadow-lg">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">
-            {isSignUp ? 'Create Account' : 'Sign In'}
-          </h1>
-          <div className="flex space-x-3 social-icons">
-            <a href="#" className="icon">
-              <i className="fab fa-google-plus-g"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-github"></i>
-            </a>
-            <a href="#" className="icon">
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
-        <span className="text-sm">
-          or use your email for {isSignUp ? 'registration' : 'sign in'}
-        </span>
-        <form className="mt-4">
-          {isSignUp && (
-            <input type="text" placeholder="Name" className="input" />
-          )}
-          <input type="email" placeholder="Email" className="input" />
-          <input type="password" placeholder="Password" className="input" />
-          {isSignUp && (
-            <button type="submit" className="btn">
-              Sign Up
-            </button>
-          )}
-          {!isSignUp && (
-            <button type="submit" className="btn">
-              Sign In
-            </button>
-          )}
-        </form>
-        <div className="mt-2 text-sm">
-          {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
-          <button className="link" onClick={toggleForm}>
-            {isSignUp ? 'Sign In' : 'Sign Up'}
-          </button>
-        </div>
+    <div className="md:w-1/3 max-w-sm">
+      <div className="text-center md:text-left">
+        <label className="mr-1">Sign in</label>
+      </div>
+      <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+        <p className="mx-4 mb-0 text-center font-semibold text-slate-500"></p>
+      </div>
+      <input
+        className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded"
+        type="text"
+        placeholder="Email Address"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <div className="mt-4 flex justify-between font-semibold text-sm">
+        <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">
+          <input className="mr-1" type="checkbox" />
+          <span>Remember Me</span>
+        </label>
+        <a
+          className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4"
+          href="#"
+        >
+          Forgot Password?
+        </a>
+      </div>
+      <div className="text-center md:text-left">
+        <button
+          className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
+          type="submit"
+        >
+          Login
+        </button>
+      </div>
+      <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
+        Don&apos;t have an account?{' '}
+        <a
+          className="text-red-600 hover:underline hover:underline-offset-4"
+          href="/register"
+        >
+          Register
+        </a>
       </div>
     </div>
   );
