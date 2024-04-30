@@ -2,7 +2,7 @@
 import Banner from './component/Banner';
 import { CirclePlus } from 'lucide-react';
 import AddProduct from './component/AddProduct';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CardCarousel from './component/CardCarousel';
 import {
   Dialog,
@@ -20,6 +20,7 @@ import orange from './assets/orange.jpg';
 import mango from './assets/mango.jpg';
 import CardFormal from './component/CardFormal';
 import CardInformal from './component/CardInformal';
+import { login } from '..';
 
 export default function Home() {
   const products = [
@@ -59,6 +60,20 @@ export default function Home() {
       weight: '1kg',
     },
   ];
+  const getUser = () => {
+    login({ email: 'egnoel@hotmail.com', password: '1234' })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <div className="relative flex flex-col gap-10">
       <div className="flex flex-col w-full h-full">
