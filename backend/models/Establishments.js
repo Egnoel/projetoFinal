@@ -3,10 +3,12 @@ const { Schema } = mongoose;
 
 const establishmentSchema = new Schema({
   name: String,
-  address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address',
-  },
+  address: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Address',
+    },
+  ],
   storeType: {
     type: String,
     enum: ['formal', 'informal'],

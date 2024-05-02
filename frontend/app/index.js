@@ -31,3 +31,39 @@ export const getProducts = () => {
 export const getProduct = (id) => {
   return axios.get(`/products/${id}`);
 };
+
+export const createProduct = (product) => {
+  return axios.post('/products', product);
+};
+
+export const updateProduct = (id, product) => {
+  return axios.put(`/products/${id}`, product);
+};
+
+export const deleteProduct = (id) => {
+  return axios.delete(`/products/${id}`);
+};
+
+export const getEstablishments = () => {
+  return axios.get('/establishments/');
+};
+
+export const getEstablishment = (id) => {
+  return axios.get(`/establishments/${id}`);
+};
+
+export const createEstablishment = (establishment) => {
+  return axios.post('/establishments', establishment);
+};
+
+export const updateEstablishment = (id, establishment) => {
+  return axios.put(`/establishments/${id}`, establishment);
+};
+
+export const deleteEstablishment = (id) => {
+  return axios.delete(`/establishments/${id}`);
+};
+
+export const getAddresses = () => {
+  return axios.get('/addresses/');
+};

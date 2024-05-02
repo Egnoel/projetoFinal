@@ -7,11 +7,6 @@ const productSchema = new Schema(
     price: Number,
     description: String,
     images: [String],
-    category: {
-      type: String,
-      enum: ['food', 'drink', 'household'],
-      required: true,
-    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

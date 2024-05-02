@@ -20,7 +20,7 @@ const CardCarousel = ({ products }) => {
       <CarouselContent>
         {products.map((product) => (
           <CarouselItem
-            key={product.id}
+            key={product._id}
             className="flex flex-row items-center gap-2 md:basis-1/2 lg:basis-1/3"
           >
             <Card

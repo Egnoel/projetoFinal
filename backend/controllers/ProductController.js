@@ -5,8 +5,7 @@ const SearchHistory = require('../models/SearchHistory');
 
 const addProduct = async (req, res) => {
   try {
-    const { name, description, price, images, establishmentId, category } =
-      req.body;
+    const { name, description, price, images, establishmentId } = req.body;
     const createdBy = req.user._id;
     const establishment = await Establishments.findById(establishmentId);
     if (!establishment)
@@ -17,7 +16,6 @@ const addProduct = async (req, res) => {
       price,
       images,
       Establishment: establishment._id,
-      category,
       createdBy,
     });
     await newProduct.save();

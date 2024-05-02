@@ -8,12 +8,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-const SearchableSelect = ({
+const SearchableAddress = ({
   options,
   label,
   setSelectedValue,
   selectedValue,
-  setEstablishmentId,
 }) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,9 +20,8 @@ const SearchableSelect = ({
     setSearchQuery(e.target.value);
   };
   const filteredOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(searchQuery.toLowerCase())
+    option.address.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -34,14 +32,15 @@ const SearchableSelect = ({
           className="w-[130px] "
         >
           {selectedValue
-            ? options.find((option) => option.name === selectedValue)?.name
+            ? options.find((option) => option.address === selectedValue)
+                ?.address
             : `${label}`}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[130px] p-0">
         <div className="flex flex-col w-full gap-3">
-          <div className="flex items-center w-full gap-1">
+          <div className="flex items-center w-full gap-1 mt-1">
             <Search />
             <input
               type="text"
@@ -55,19 +54,20 @@ const SearchableSelect = ({
                 key={option._id}
                 className={`
                 ${
-                  option.name === selectedValue ? 'bg-green-400 text-white' : ''
+                  option.address === selectedValue
+                    ? 'bg-green-400 text-white'
+                    : ''
                 }
-                flex items-center justify-between w-full h-10 px-2 border rounded-md hover:bg-green-400 hover:cursor-pointer hover:text-white
+                flex flex-wrap items-center justify-between w-full h-auto px-1 border rounded-md hover:bg-green-400 hover:cursor-pointer hover:text-white
                 `}
                 onClick={() => {
-                  setSelectedValue(option.name);
-                  setEstablishmentId(option._id);
+                  setSelectedValue(option.address);
                   setOpen(false);
                   setSearchQuery('');
                 }}
               >
-                <p className="text-sm">{option.name}</p>
-                {option.name === selectedValue && (
+                <p className="text-sm text-wrap">{option.address}</p>
+                {option.address === selectedValue && (
                   <Check className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                 )}
               </div>
@@ -79,4 +79,4 @@ const SearchableSelect = ({
   );
 };
 
-export default SearchableSelect;
+export default SearchableAddress;

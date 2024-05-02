@@ -72,7 +72,7 @@ const getEstablishment = async (req, res) => {
 
 const getEstablishments = async (req, res) => {
   try {
-    const establishments = await Establishment.find();
+    const establishments = await Establishment.find().populate('address');
     res.status(200).send(establishments);
   } catch (error) {
     res.status(404).send({ message: error.message });
