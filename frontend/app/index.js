@@ -32,8 +32,20 @@ export const getProduct = (id) => {
   return axios.get(`/products/${id}`);
 };
 
-export const createProduct = (product) => {
-  return axios.post('/products', product);
+export const createProduct = (
+  name,
+  description,
+  price,
+  images,
+  establishmentId
+) => {
+  return axios.post('/products', {
+    name,
+    description,
+    price,
+    images,
+    establishmentId,
+  });
 };
 
 export const updateProduct = (id, product) => {

@@ -1,14 +1,33 @@
+'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 const UploadImage = ({ setImages }) => {
   const [files, setFiles] = useState([]);
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
+    e.preventDefault();
     const selectedFiles = Array.from(e.target.files);
     setFiles([...files, ...selectedFiles]);
-    // Convert selected files to URLs and update the parent component's state
-    const urls = selectedFiles.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...urls]);
+    for (const file of selectedFiles) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'chat app');
+      try {
+        const response = await fetch(
+          'https://api.cloudinary.com/v1_1/dameucg7x/image/upload',
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        setImages((prevImages) => [...prevImages, data.secure_url]);
+      } catch (error) {
+        console.error('Error uploading image to Cloudinary:', error);
+      }
+    }
   };
   return (
     <div className="flex flex-row items-center gap-1">

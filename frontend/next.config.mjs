@@ -7,6 +7,7 @@ const nextConfig = {
       'tecdn.b-cdn.net',
       'www.freepik.com',
       'img.freepik.com',
+      'res.cloudinary.com',
     ],
   },
 };

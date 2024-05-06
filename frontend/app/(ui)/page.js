@@ -1,6 +1,6 @@
 'use client';
 import Banner from './component/Banner';
-
+import { jwtDecode } from 'jwt-decode';
 import AddProduct from './component/AddProduct';
 import { useCallback, useEffect, useState } from 'react';
 import CardFormal from './component/CardFormal';
@@ -13,6 +13,12 @@ export default function Home() {
   const [user, setUser] = useState({});
   const [formalProducts, setFormalProducts] = useState([]);
   const [informalProducts, setInformalProducts] = useState([]);
+
+  const isTokenExpired = (token) => {
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+    return decodedToken.exp < currentTime;
+  };
   const fetchProducts = useCallback(() => {
     getProducts().then((response) => {
       const products = response.data;
@@ -28,8 +34,15 @@ export default function Home() {
     });
   }, []); // Add an empty array as the second argument
   useEffect(() => {
-    if (localStorage.getItem('user')) {
-      setUser(JSON.parse(localStorage.getItem('user')));
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+      console.log('token', token);
+      if (isTokenExpired(token)) {
+        localStorage.removeItem('token'); // Remove the expired token
+        router.push('/login'); // Redirect to the login page
+      } else {
+        setUser(JSON.parse(localStorage.getItem('user')));
+      }
     } else {
       router.push('/login');
     }
@@ -41,8 +54,14 @@ export default function Home() {
       <div className="flex flex-col w-full h-full">
         <Banner />
         <div className="flex flex-col items-center w-full gap-6">
-          <CardFormal products={formalProducts} />
-          <CardInformal products={informalProducts} />
+          <div className="flex flex-col w-full gap-3">
+            <h1 className="px-2 text-2xl font-bold">Estabelecimentos</h1>
+            <CardFormal products={formalProducts} />
+          </div>
+          <div className="flex flex-col w-full gap-3">
+            <h1 className="px-2 text-2xl font-bold">Mercado Informal</h1>
+            <CardInformal products={informalProducts} />
+          </div>
         </div>
       </div>
       {user && user.userType === 'admin' && (

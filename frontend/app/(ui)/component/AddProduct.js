@@ -1,6 +1,4 @@
 'use client';
-import Image from 'next/image';
-import add from '../assets/add.jpg';
 import { useEffect, useState } from 'react';
 import SearchableSelect from './SearchableSelect ';
 import UploadImage from './UploadImage';
@@ -12,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
+  DialogClose,
 } from '@/components/ui/dialog';
 import { CirclePlus } from 'lucide-react';
 import { createProduct, getEstablishments } from '@/app';
@@ -23,9 +22,10 @@ const AddProduct = ({ fetchProducts }) => {
   const [selectedAddress, setSelectedAddress] = useState('');
   const [selectedStore, setSelectedStore] = useState('');
   const [images, setImages] = useState([]);
-  const [EstablishmentId, setEstablishmentId] = useState(0);
+  const [establishmentId, setEstablishmentId] = useState();
   const [description, setDescription] = useState('');
   const [stores, setStores] = useState();
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const fetchStores = async () => {
     const { data } = await getEstablishments();
@@ -36,13 +36,14 @@ const AddProduct = ({ fetchProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createProduct({
-        name,
-        description,
-        price,
-        images,
-        EstablishmentId,
-      });
+      await createProduct(name, description, price, images, establishmentId);
+      setName('');
+      setDescription('');
+      setPrice(0);
+      setImages([]);
+      setSelectedAddress('');
+      setSelectedStore('');
+      setEstablishmentId();
       fetchProducts();
     } catch (error) {
       console.error(error);
