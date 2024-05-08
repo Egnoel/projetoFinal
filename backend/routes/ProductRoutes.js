@@ -22,7 +22,7 @@ router.get('/:id', getProduct);
 
 router.get('/', getProducts);
 
-router.get('/search', auth, searchProduct);
+router.get('/search/:searchTerm', auth, searchProduct);
 
 router.get('/search/last3', auth, getLast3SearchHistory);
 

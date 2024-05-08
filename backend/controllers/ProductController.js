@@ -83,17 +83,33 @@ const deleteProduct = async (req, res) => {
 
 const searchProduct = async (req, res) => {
   try {
-    const { name } = req.body;
-    const product = await Product.findOne({ name });
-    if (!product) return res.status(404).send({ message: 'Product not found' });
+    // Normaliza o termo de busca
+    let { searchTerm } = req.params;
+    searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+    searchTerm = searchTerm.normalize().trim();
+    console.log(searchTerm);
+
+    // Busca produtos com nomes normalizados que correspondem ao termo de busca
+    const products = await Product.find({
+      name: searchTerm,
+    })
+      .populate('Establishment')
+      .populate('createdBy');
+
+    if (!products || products.length === 0) {
+      return res.status(404).send({ message: 'No products found' });
+    }
+
+    // Salva o histórico de busca
     const searchHistory = new SearchHistory({
-      searchTerm: name,
+      searchTerm: searchTerm,
       user: req.user._id,
     });
     await searchHistory.save();
-    res.status(200).send(product);
+
+    res.status(200).send(products);
   } catch (error) {
-    res.status(404).send({ message: error.message });
+    res.status(500).send({ message: 'Internal server error' });
   }
 };
 

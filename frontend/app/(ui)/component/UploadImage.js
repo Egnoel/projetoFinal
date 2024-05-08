@@ -3,10 +3,10 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { Cloudinary } from '@cloudinary/url-gen';
 
-const UploadImage = ({ setImages }) => {
+const UploadImage = ({ setImages, images }) => {
   const [files, setFiles] = useState([]);
+
   const handleChange = async (e) => {
-    e.preventDefault();
     const selectedFiles = Array.from(e.target.files);
     setFiles([...files, ...selectedFiles]);
     for (const file of selectedFiles) {
@@ -34,10 +34,10 @@ const UploadImage = ({ setImages }) => {
       <span>Imagem</span>
       <input type="file" multiple accept="image/*" onChange={handleChange} />
       <div className="flex flex-row gap-1">
-        {files.map((file, index) => (
+        {images.map((file, index) => (
           <Image
             key={index}
-            src={URL.createObjectURL(file)}
+            src={file}
             alt={`Uploaded image ${index}`}
             width={8}
             height={8}

@@ -5,20 +5,32 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
+  const router = useRouter();
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Lojas', href: '/stores' },
   ];
   const [user, setUser] = useState({});
+  const [searchText, setSearchText] = useState('');
   useEffect(() => {
-    if (localStorage.getItem('user')) {
-      setUser(JSON.parse(localStorage.getItem('user')));
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      setUser(JSON.parse(userString));
     } else {
       window.location.href = '/login';
     }
   }, []);
+  const logout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
+  const handleSearch = (e) => {
+    router.push(`/results/${searchText}`);
+  };
   return (
     <div className="fixed z-10 flex items-center justify-between w-full px-4 bg-white">
       <div className="flex items-center justify-center gap-3">
@@ -39,8 +51,13 @@ const Header = () => {
       </nav>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-1 px-1 border rounded-md">
-          <input type="text" className="outline-none " />
-          <button>
+          <input
+            type="text"
+            className="outline-none "
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button onClick={handleSearch}>
             <Search />
           </button>
         </div>
@@ -51,7 +68,7 @@ const Header = () => {
             </Button>
           </Link>
         ) : (
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row items-center gap-2">
             <Avatar>
               <AvatarImage src={user.image} alt="user" />
               <AvatarFallback>CN</AvatarFallback>

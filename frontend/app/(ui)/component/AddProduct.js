@@ -136,25 +136,26 @@ const AddProduct = ({ fetchProducts }) => {
               </div>
             </div>
             <div className="flex items-center w-full">
-              <UploadImage setImages={setImages} />
+              <UploadImage setImages={setImages} images={images} />
             </div>
             <div className="flex flex-col w-full">
               <span>Descrição</span>
               <textarea
-                name=""
-                id=""
+                name="description"
+                id="description"
+                type="text"
                 cols="30"
                 rows="4"
                 className="w-full border border-black rounded-md outline-none"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
+              />
             </div>
           </form>
           <DialogFooter>
             <button
               className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-              type="submit"
+              type="button"
               onClick={handleSubmit}
             >
               Adicionar

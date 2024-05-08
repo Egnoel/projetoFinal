@@ -52,6 +52,10 @@ export const updateProduct = (id, product) => {
   return axios.put(`/products/${id}`, product);
 };
 
+export const searchProduct = (searchTerm) => {
+  return axios.get(`/products/search/${searchTerm}`);
+};
+
 export const deleteProduct = (id) => {
   return axios.delete(`/products/${id}`);
 };
