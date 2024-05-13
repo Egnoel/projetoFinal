@@ -6,6 +6,28 @@ import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 const Header = () => {
   const router = useRouter();
@@ -16,13 +38,12 @@ const Header = () => {
   const [user, setUser] = useState({});
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      setUser(JSON.parse(userString));
+    if (localStorage.getItem('token')) {
+      setUser(JSON.parse(localStorage.getItem('user')));
     } else {
-      window.location.href = '/login';
+      router.push('/login');
     }
-  }, []);
+  }, [router]);
   const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
@@ -73,7 +94,33 @@ const Header = () => {
               <AvatarImage src={user.image} alt="user" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <Link href={`/profile/${user.id}`}>{user.firstName}</Link>
+
+            <Popover>
+              <PopoverTrigger>
+                <span className="">{user.firstName}</span>
+              </PopoverTrigger>
+              <PopoverContent className="flex flex-col w-20 gap-2">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <span className="hover:cursor-pointer">Perfil</span>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Perfil</DialogTitle>
+                      <DialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+
+                <button type="button" onClick={logout}>
+                  Sair
+                </button>
+              </PopoverContent>
+            </Popover>
           </div>
         )}
       </div>

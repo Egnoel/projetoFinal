@@ -23,7 +23,7 @@ const Register = () => {
       .then((res) => {
         console.log(res);
         localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', res.data.user);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
         router.push('/');
       })
       .catch((err) => {
@@ -31,22 +31,22 @@ const Register = () => {
       });
   };
   return (
-    <div className="md:w-1/3 max-w-sm">
+    <div className="max-w-sm md:w-1/3">
       <div className="text-center md:text-left">
         <label className="mr-1">Sign Up</label>
       </div>
       <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-        <p className="mx-4 mb-0 text-center font-semibold text-slate-500"></p>
+        <p className="mx-4 mb-0 font-semibold text-center text-slate-500"></p>
       </div>
       <input
-        className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
+        className="w-full px-4 py-2 mt-4 text-sm border border-gray-300 border-solid rounded"
         type="text"
         placeholder="First Name"
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
       />
       <input
-        className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
+        className="w-full px-4 py-2 mt-4 text-sm border border-gray-300 border-solid rounded"
         type="text"
         placeholder="Last Name"
         value={lastName}
@@ -62,14 +62,14 @@ const Register = () => {
         </SelectContent>
       </Select>
       <input
-        className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
+        className="w-full px-4 py-2 mt-4 text-sm border border-gray-300 border-solid rounded"
         type="email"
         placeholder="Email Address"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
+        className="w-full px-4 py-2 mt-4 text-sm border border-gray-300 border-solid rounded"
         type="password"
         placeholder="Password"
         value={password}
@@ -77,14 +77,14 @@ const Register = () => {
       />
       <div className="text-center md:text-left">
         <button
-          className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
+          className="px-4 py-2 mt-4 text-xs tracking-wider text-white uppercase bg-blue-600 rounded hover:bg-blue-700"
           type="submit"
           onClick={handleSubmit}
         >
           Register
         </button>
       </div>
-      <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
+      <div className="mt-4 text-sm font-semibold text-center text-slate-500 md:text-left">
         Already Registered?{' '}
         <a
           className="text-red-600 hover:underline hover:underline-offset-4"
