@@ -10,29 +10,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import ComparePrices from './ComparePrices';
 
-const RightSide = () => {
-  const [count, setCount] = useState(0);
-  const add = () => setCount(count + 1);
-  const minus = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
+const RightSide = ({ product }) => {
+  if (!product || !product.Establishment) {
+    return <div>Loading...</div>;
+  }
+  console.log(product);
   return (
     <div className="flex flex-col gap-10 w-[70%]">
       <div className="flex flex-col">
         <span className="text-[#ff7d1a] uppercase text-xs font-semibold">
-          Shoprite Talatona
+          {product.Establishment.name}
         </span>
-        <h1 className="text-5xl font-bold">Peixe</h1>
+        <h1 className="text-5xl font-bold">{product.name}</h1>
         <p className="text-xs text-[#a1a1a1] font-normal">
-          Descrição do peixe, vendido em kilo
+          {product.description}
         </p>
       </div>
       <div className="flex flex-col justify-center gap-1">
         <div className="flex flex-row items-center gap-2">
-          <strong className="price">$125.00</strong>
+          <strong className="price">{product.price} KZ</strong>
           <span className="text-xs text-[#ff7d1a] font-normal bg-[#ffede0] p-2">
             50%
           </span>
@@ -50,13 +48,7 @@ const RightSide = () => {
             </button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </DialogDescription>
-            </DialogHeader>
+            <ComparePrices productName={product.name} />
           </DialogContent>
         </Dialog>
         <Dialog>

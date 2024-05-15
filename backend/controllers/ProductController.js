@@ -28,7 +28,7 @@ const addProduct = async (req, res) => {
 const getProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate('Establishment');
     if (!product) return res.status(404).send({ message: 'Product not found' });
     res.status(200).send(product);
   } catch (error) {
@@ -126,6 +126,42 @@ const getLast3SearchHistory = async (req, res) => {
   }
 };
 
+const compareProductPrices = async (req, res) => {
+  try {
+    let { productName } = req.params;
+    productName =
+      productName.charAt(0).toUpperCase() +
+      productName.slice(1).normalize().trim();
+
+    const products = await Product.find({ name: productName }).populate(
+      'Establishment'
+    );
+
+    if (products.length === 0) {
+      return res
+        .status(404)
+        .send({ message: 'No products found with the specified name' });
+    }
+
+    const sortedProducts = products.sort((a, b) => a.price - b.price);
+
+    const priceComparisons = sortedProducts.map((product) => ({
+      _id: product._id,
+      name: product.name,
+      price: product.price,
+      images: product.images,
+      establishment: {
+        name: product.Establishment.name,
+        address: product.Establishment.address,
+      },
+    }));
+
+    res.status(200).send(priceComparisons);
+  } catch (error) {
+    res.status(500).send({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   addProduct,
   deleteProduct,
@@ -134,4 +170,5 @@ module.exports = {
   getProducts,
   searchProduct,
   getLast3SearchHistory,
+  compareProductPrices,
 };

@@ -9,6 +9,7 @@ const {
   getProducts,
   searchProduct,
   getLast3SearchHistory,
+  compareProductPrices,
 } = require('../controllers/ProductController');
 const auth = require('../utils/middleware');
 
@@ -23,6 +24,8 @@ router.get('/:id', getProduct);
 router.get('/', getProducts);
 
 router.get('/search/:searchTerm', auth, searchProduct);
+
+router.get('/compare/:productName', auth, compareProductPrices);
 
 router.get('/search/last3', auth, getLast3SearchHistory);
 

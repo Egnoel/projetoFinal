@@ -30,7 +30,6 @@ export default function Home() {
       );
       setFormalProducts(formalProducts);
       setInformalProducts(informalProducts);
-      console.log(formalProducts);
     });
   }, []); // Add an empty array as the second argument
   useEffect(() => {
@@ -64,9 +63,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {user && user.userType === 'admin' && (
-        <AddProduct fetchProducts={fetchProducts} />
-      )}
+      {user && <AddProduct fetchProducts={fetchProducts} />}
     </div>
   );
 }

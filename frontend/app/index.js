@@ -63,6 +63,10 @@ export const deleteProduct = (id) => {
   return axios.delete(`/products/${id}`);
 };
 
+export const compareProductPrices = (productName) => {
+  return axios.get(`/products/compare/${productName}`);
+};
+
 export const getEstablishments = () => {
   return axios.get('/establishments/');
 };

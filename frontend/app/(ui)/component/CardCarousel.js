@@ -28,7 +28,7 @@ const CardCarousel = ({ products }) => {
               price={product.price}
               image={product.images[0] || product.images[1]}
               weight={product.description}
-              id={product.id}
+              id={product._id}
             />
           </CarouselItem>
         ))}
