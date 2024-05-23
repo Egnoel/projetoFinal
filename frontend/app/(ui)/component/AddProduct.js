@@ -36,7 +36,15 @@ const AddProduct = ({ fetchProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createProduct(name, description, price, images, establishmentId);
+      await createProduct(
+        name,
+        description,
+        price,
+        images,
+        establishmentId,
+        selectedStore,
+        selectedAddress
+      );
       setName('');
       setDescription('');
       setPrice(0);
@@ -112,10 +120,9 @@ const AddProduct = ({ fetchProducts }) => {
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <span>Localização</span>
+              <span>Establecimento</span>
               <div className="flex flex-col gap-3">
-                <div className="flex flex-row items-center gap-2">
-                  <span>Estabelecimento</span>
+                <div className="flex flex-row items-center justify-between w-full gap-2">
                   <SearchableSelect
                     options={stores}
                     label={'Estabelecimentos'}
@@ -123,14 +130,26 @@ const AddProduct = ({ fetchProducts }) => {
                     selectedValue={selectedStore}
                     setEstablishmentId={setEstablishmentId}
                   />
+                  <input
+                    type="text"
+                    name="store"
+                    onChange={setSelectedStore}
+                    className="px-2 mx-auto border rounded-md outline-none"
+                  />
                 </div>
-                <div className="flex flex-row items-center gap-2">
-                  <span>Endereço</span>
+                <span>Endereço</span>
+                <div className="flex flex-row items-center justify-between w-full gap-2">
                   <SearchableAddress
                     options={stores?.map((store) => store.address[0])}
                     label={'Endereço'}
                     setSelectedValue={setSelectedAddress}
                     selectedValue={selectedAddress}
+                  />
+                  <input
+                    type="text"
+                    name="addres"
+                    onChange={setSelectedAddress}
+                    className="px-2 mx-auto border rounded-md outline-none text-wrap"
                   />
                 </div>
               </div>

@@ -26,12 +26,12 @@ const SearchableSelect = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild className="mx-auto">
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[130px] "
+          className="mx-auto"
         >
           {selectedValue
             ? options.find((option) => option.name === selectedValue)?.name

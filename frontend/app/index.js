@@ -40,7 +40,9 @@ export const createProduct = (
   description,
   price,
   images,
-  establishmentId
+  establishmentId,
+  selectedStore,
+  selectedAddress
 ) => {
   return axios.post('/products', {
     name,

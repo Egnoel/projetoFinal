@@ -2,14 +2,39 @@ const Product = require('../models/Product');
 const Establishments = require('../models/Establishments');
 const Address = require('../models/Address');
 const SearchHistory = require('../models/SearchHistory');
+const { addEstablishment } = require('./EstablishmentController');
+const User = require('../models/User');
 
 const addProduct = async (req, res) => {
   try {
-    const { name, description, price, images, establishmentId } = req.body;
+    const {
+      name,
+      description,
+      price,
+      images,
+      establishmentId,
+      selectedStore,
+      selectedAddress,
+    } = req.body;
     const createdBy = req.user._id;
-    const establishment = await Establishments.findById(establishmentId);
-    if (!establishment)
-      return res.status(404).send({ message: 'Establishment not found' });
+    let establishment = await Establishments.findById(establishmentId);
+    if (!establishment) {
+      const newAddress = new Address({
+        address: selectedAddress,
+        coordinates: { lat: 0, long: 0 },
+      });
+      const savedAddress = await newAddress.save();
+      const user = await User.findById(createdBy);
+      if (!user) return res.status(404).send({ message: 'User not found' });
+      store = user.userType === 'user' ? 'informal' : 'formal';
+      const newEstablishment = new Establishments({
+        name,
+        address: savedAddress._id,
+        storeType: store,
+        createdBy,
+      });
+      establishment = await newEstablishment.save();
+    }
     const newProduct = new Product({
       name,
       description,

@@ -24,12 +24,12 @@ const SearchableAddress = ({
   );
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild className="mx-auto text-wrap">
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[130px] "
+          className="mx-auto text-wrap"
         >
           {selectedValue
             ? options.find((option) => option.address === selectedValue)

@@ -58,7 +58,7 @@ export default function Home() {
             <CardFormal products={formalProducts} />
           </div>
           <div className="flex flex-col w-full gap-3">
-            <h1 className="px-2 text-2xl font-bold">Mercado Informal</h1>
+            <h1 className="px-2 text-2xl font-bold">Comunidade</h1>
             <CardInformal products={informalProducts} />
           </div>
         </div>
