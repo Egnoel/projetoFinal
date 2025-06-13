@@ -20,7 +20,7 @@ const SearchableAddress = ({
     setSearchQuery(e.target.value);
   };
   const filteredOptions = options.filter((option) =>
-    option.address.toLowerCase().includes(searchQuery.toLowerCase())
+    option.address?.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
     <Popover open={open} onOpenChange={setOpen}>
