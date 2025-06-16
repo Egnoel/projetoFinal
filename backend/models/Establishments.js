@@ -18,6 +18,17 @@ const establishmentSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  Coordinates: {
+    type: {
+      type: String,
+      enum: ['Point'], // 'Point' for GeoJSON
+      required: true,
+    },
+    coordinates: {
+      type: [Number], // [longitude, latitude]
+      required: true,
+    },
+  },
 });
 
 module.exports = mongoose.model('Establishment', establishmentSchema);
