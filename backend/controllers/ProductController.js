@@ -17,24 +17,33 @@ const addProduct = async (req, res) => {
       selectedAddress,
     } = req.body;
     const createdBy = req.user._id;
-    let establishment = await Establishments.findById(establishmentId);
-    if (!establishment) {
-      const newAddress = new Address({
-        address: selectedAddress,
-        coordinates: { lat: 0, long: 0 },
-      });
-      const savedAddress = await newAddress.save();
+
+    let establishment;
+    if (establishmentId) {
+      establishment = await Establishments.findById(establishmentId);
+      if (!establishment) {
+        return res.status(404).send({ message: 'Establishment not found' });
+      }
+    } else {
+      const Coordinates = {
+        type: 'Point',
+        coordinates: selectedAddress.coordinates,
+      };
+      const addressDetails = selectedAddress.address;
+
       const user = await User.findById(createdBy);
       if (!user) return res.status(404).send({ message: 'User not found' });
-      store = user.userType === 'user' ? 'informal' : 'formal';
-      const newEstablishment = new Establishments({
-        name,
-        address: savedAddress._id,
-        storeType: store,
+
+      const store = user.userType === 'user' ? 'informal' : 'formal';
+      establishment = new Establishments({
+        name: selectedStore,
+        addressDetails,
+        Coordinates,
         createdBy,
       });
-      establishment = await newEstablishment.save();
+      establishment = await establishment.save();
     }
+
     const newProduct = new Product({
       name,
       description,

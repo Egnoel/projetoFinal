@@ -4,19 +4,24 @@ const User = require('../models/User');
 
 const addEstablishment = async (req, res) => {
   try {
-    let store = '';
+    const { name, Coordinates, addressDetails } = req.body;
     const createdBy = req.user._id;
-    const { name, address } = req.body;
-    const { address: addressStr, coordinates } = address;
-    const newAddress = new Address({ address: addressStr, coordinates });
-    const savedAddress = await newAddress.save();
+
+    // Check if an establishment with the same name already exists
+    const existingEstablishment = await Establishment.findOne({ name });
+    if (existingEstablishment) {
+      return res
+        .status(400)
+        .send({ message: 'Establishment with this name already exists' });
+    }
+
     const user = await User.findById(createdBy);
     if (!user) return res.status(404).send({ message: 'User not found' });
-    store = user.userType === 'user' ? 'informal' : 'formal';
+
     const newEstablishment = new Establishment({
       name,
-      address: savedAddress._id,
-      storeType: store,
+      Coordinates,
+      addressDetails,
       createdBy,
     });
     const savedEstablishment = await newEstablishment.save();
@@ -28,21 +33,24 @@ const addEstablishment = async (req, res) => {
 
 const editEstablishment = async (req, res) => {
   try {
-    const { name, addresId, storeType } = req.body;
+    const { name, addressDetails, Coordinates } = req.body;
     const createdBy = req.user._id;
-    const address = await Address.findById(addresId);
-    if (!address) return res.status(404).send({ message: 'Address not found' });
+
+    // Check if the establishment exists before updating
+    const establishment = await Establishment.findById(req.params.id);
+    if (!establishment) {
+      return res.status(404).send({ message: 'Establishment not found' });
+    }
+
     const user = await User.findById(createdBy);
     if (!user) return res.status(404).send({ message: 'User not found' });
-    const establishment = await Establishment.findByIdAndUpdate(req.params.id, {
-      name,
-      address,
-      storeType,
-      createdBy,
-    });
-    if (!establishment)
-      return res.status(404).send({ message: 'Establishment not found' });
-    res.status(200).send(establishment);
+
+    establishment.name = name;
+    establishment.addressDetails = addressDetails;
+    establishment.Coordinates = Coordinates;
+    establishment.createdBy = createdBy;
+    const updatedEstablishment = await establishment.save();
+    res.status(200).send(updatedEstablishment);
   } catch (error) {
     res.status(404).send({ message: error.message });
   }
@@ -50,9 +58,20 @@ const editEstablishment = async (req, res) => {
 
 const deleteEstablishment = async (req, res) => {
   try {
+    // Check if the establishment has any associated products
+    const products = await Product.find({ Establishment: req.params.id });
+    if (products.length > 0) {
+      return res
+        .status(400)
+        .send({
+          message: 'Cannot delete establishment with associated products',
+        });
+    }
+
     const establishment = await Establishment.findByIdAndDelete(req.params.id);
-    if (!establishment)
+    if (!establishment) {
       return res.status(404).send({ message: 'Establishment not found' });
+    }
     res.status(200).send({ message: 'Establishment deleted' });
   } catch (error) {
     res.status(404).send({ message: error.message });

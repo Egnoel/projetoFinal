@@ -3,16 +3,8 @@ const { Schema } = mongoose;
 
 const establishmentSchema = new Schema({
   name: String,
-  address: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Address',
-    },
-  ],
-  storeType: {
+  addressDetails: {
     type: String,
-    enum: ['formal', 'informal'],
-    required: true,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +15,7 @@ const establishmentSchema = new Schema({
       type: String,
       enum: ['Point'], // 'Point' for GeoJSON
       required: true,
+      default: 'Point',
     },
     coordinates: {
       type: [Number], // [longitude, latitude]
