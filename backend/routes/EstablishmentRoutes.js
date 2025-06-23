@@ -2,28 +2,22 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  addEstablishment,
-  editEstablishment,
+  createEstablishment,
+  getAllEstablishments,
+  getEstablishmentById,
+  updateEstablishment,
   deleteEstablishment,
-  getEstablishment,
-  getEstablishments,
-  getProducts,
-  getEstablishmentByType,
-} = require('../controllers/EstablishmentController');
-const auth = require('../utils/middleware');
+} = require('../controllers/EstablishmentController.js');
+const auth = require('../utils/middleware.js');
 
-router.post('/', auth, addEstablishment);
+router.post('/', auth, createEstablishment);
 
-router.put('/:id', auth, editEstablishment);
+router.put('/:id', auth, updateEstablishment);
 
 router.delete('/:id', auth, deleteEstablishment);
 
-router.get('/:id', getEstablishment);
+router.get('/:id', getEstablishmentById);
 
-router.get('/', getEstablishments);
-
-router.get('/:id/products', getProducts);
-
-router.get('/type/:type', getEstablishmentByType);
+router.get('/', getAllEstablishments);
 
 module.exports = router;

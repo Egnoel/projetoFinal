@@ -1,132 +1,114 @@
-const Establishment = require('../models/Establishments');
-const Address = require('../models/Address');
-const User = require('../models/User');
+const Establishment = require('../models/Establishment.js');
 
-const addEstablishment = async (req, res) => {
+// Criar um novo estabelecimento
+const createEstablishment = async (req, res) => {
   try {
-    const { name, Coordinates, addressDetails } = req.body;
-    const createdBy = req.user._id;
+    const { name, addressDetails, coordinates } = req.body;
 
-    // Check if an establishment with the same name already exists
-    const existingEstablishment = await Establishment.findOne({ name });
-    if (existingEstablishment) {
-      return res
-        .status(400)
-        .send({ message: 'Establishment with this name already exists' });
-    }
-
-    const user = await User.findById(createdBy);
-    if (!user) return res.status(404).send({ message: 'User not found' });
-
-    const newEstablishment = new Establishment({
+    // Verifica se já existe estabelecimento com o mesmo nome e coordenadas
+    const existing = await Establishment.findOne({
       name,
-      Coordinates,
-      addressDetails,
-      createdBy,
+      'Coordinates.coordinates': coordinates,
     });
-    const savedEstablishment = await newEstablishment.save();
-    res.status(201).send(savedEstablishment);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
-};
 
-const editEstablishment = async (req, res) => {
-  try {
-    const { name, addressDetails, Coordinates } = req.body;
-    const createdBy = req.user._id;
-
-    // Check if the establishment exists before updating
-    const establishment = await Establishment.findById(req.params.id);
-    if (!establishment) {
-      return res.status(404).send({ message: 'Establishment not found' });
+    if (existing) {
+      return res.status(400).json({ error: 'Estabelecimento já existe.' });
     }
 
-    const user = await User.findById(createdBy);
-    if (!user) return res.status(404).send({ message: 'User not found' });
+    const est = await Establishment.create({
+      name,
+      addressDetails: addressDetails || '',
+      Coordinates: {
+        type: 'Point',
+        coordinates,
+      },
+      createdBy: req.user._id,
+    });
 
-    establishment.name = name;
-    establishment.addressDetails = addressDetails;
-    establishment.Coordinates = Coordinates;
-    establishment.createdBy = createdBy;
-    const updatedEstablishment = await establishment.save();
-    res.status(200).send(updatedEstablishment);
+    res.status(201).json(est);
   } catch (error) {
-    res.status(404).send({ message: error.message });
+    console.error('Erro ao criar estabelecimento:', error);
+    res.status(500).json({ error: 'Erro ao criar estabelecimento.' });
   }
 };
 
+// Listar todos os estabelecimentos
+const getAllEstablishments = async (req, res) => {
+  try {
+    const establishments = await Establishment.find().sort({ createdAt: -1 });
+    res.json(establishments);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar estabelecimentos.' });
+  }
+};
+
+// Buscar estabelecimento por ID
+const getEstablishmentById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const est = await Establishment.findById(id);
+    if (!est) {
+      return res.status(404).json({ error: 'Estabelecimento não encontrado.' });
+    }
+
+    res.json(est);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar estabelecimento.' });
+  }
+};
+
+// Atualizar estabelecimento
+const updateEstablishment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, addressDetails, coordinates } = req.body;
+
+    const updated = await Establishment.findByIdAndUpdate(
+      id,
+      {
+        ...(name && { name }),
+        ...(addressDetails && { addressDetails }),
+        ...(coordinates && {
+          Coordinates: {
+            type: 'Point',
+            coordinates,
+          },
+        }),
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Estabelecimento não encontrado.' });
+    }
+
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao atualizar estabelecimento.' });
+  }
+};
+
+// Deletar estabelecimento
 const deleteEstablishment = async (req, res) => {
   try {
-    // Check if the establishment has any associated products
-    const products = await Product.find({ Establishment: req.params.id });
-    if (products.length > 0) {
-      return res
-        .status(400)
-        .send({
-          message: 'Cannot delete establishment with associated products',
-        });
+    const { id } = req.params;
+
+    const deleted = await Establishment.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Estabelecimento não encontrado.' });
     }
 
-    const establishment = await Establishment.findByIdAndDelete(req.params.id);
-    if (!establishment) {
-      return res.status(404).send({ message: 'Establishment not found' });
-    }
-    res.status(200).send({ message: 'Establishment deleted' });
+    res.json({ message: 'Estabelecimento deletado com sucesso.' });
   } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
-};
-
-const getEstablishment = async (req, res) => {
-  try {
-    const establishment = await Establishment.findById(req.params.id);
-    if (!establishment)
-      return res.status(404).send({ message: 'Establishment not found' });
-    res.status(200).send(establishment);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
-};
-
-const getEstablishments = async (req, res) => {
-  try {
-    const establishments = await Establishment.find().populate('address');
-    res.status(200).send(establishments);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
-};
-
-const getProducts = async (req, res) => {
-  try {
-    const establishment = await Establishment.findById(req.params.id);
-    if (!establishment)
-      return res.status(404).send({ message: 'Establishment not found' });
-    res.status(200).send(establishment.products);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
-};
-
-const getEstablishmentByType = async (req, res) => {
-  try {
-    const establishments = await Establishment.find({
-      storeType: req.params.type,
-    });
-    res.status(200).send(establishments);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
+    res.status(500).json({ error: 'Erro ao deletar estabelecimento.' });
   }
 };
 
 module.exports = {
-  addEstablishment,
-  editEstablishment,
+  createEstablishment,
+  getAllEstablishments,
+  getEstablishmentById,
+  updateEstablishment,
   deleteEstablishment,
-  getEstablishment,
-  getEstablishments,
-  getProducts,
-  getEstablishmentByType,
 };
-// Path: routes/establishment.js
