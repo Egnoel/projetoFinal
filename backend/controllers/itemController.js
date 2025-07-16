@@ -1,5 +1,16 @@
 const Item = require('../models/Item.js');
 const slugify = require('slugify');
+const cloudinary = require('../utils/cloudinary.js');
+
+const uploadImage = async (image) => {
+  try {
+    const uploadResponse = await cloudinary.uploader.upload(image);
+    return uploadResponse.secure_url;
+  } catch (error) {
+    console.error('Erro ao fazer upload da imagem:', error);
+    throw new Error('Erro ao fazer upload da imagem.');
+  }
+};
 
 // Criar um novo item
 const createItem = async (req, res) => {
@@ -14,12 +25,13 @@ const createItem = async (req, res) => {
     if (existing) {
       return res.status(400).json({ error: 'Este item já existe.' });
     }
+    const imageUrl = await uploadImage(image);
 
     const item = new Item({
       name,
       description,
       category,
-      image,
+      image: imageUrl,
       slug,
       createdBy: req.user._id, // Assume que o middleware de auth adiciona `req.user`
     });
@@ -70,6 +82,11 @@ const updateItem = async (req, res) => {
     const slug = name
       ? slugify(name, { lower: true, strict: true })
       : undefined;
+
+    if (image) {
+      const imageUrl = await uploadImage(image);
+      image = imageUrl;
+    }
 
     const updatedItem = await Item.findByIdAndUpdate(
       id,
